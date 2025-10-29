@@ -1,0 +1,266 @@
+<section class="hello-world" id="hello-world-{{ section.id }}">
+{% style %}
+    #hello-world-{{ section.id }} {
+        background-color: {{ section.settings.background_color }};
+        text-align: {{ section.settings.alignment }};
+        padding-top: {{ section.settings.padding_t }}px;
+        padding-bottom: {{ section.settings.padding_b }}px;
+    }
+
+    {% for block in section.blocks %}
+      {% if block.type == 'title' %}
+        #hello-world-{{ section.id }} .title-{{ block.id }} {
+        color: {{ block.settings.font-color }};
+        background-color: {{ block.settings.b_color }};
+        font-size: {{ block.settings.title_font_size }}px;
+        text-transform:{{ block.settings.transform_1 }};
+        margin: 0px;
+        padding-top: {{ block.settings.padding_tt }}px;
+        padding-bottom: {{ block.settings.padding_bt }}px;
+        font-family: {{ block.settings.title-font }};
+        }
+      {% elsif block.type == "subtitle" %}
+        #hello-world-{{ section.id }} .subtitle-{{ block.id }} {
+        color: {{ block.settings.font_2 }};
+        background-color: {{ block.settings.b_color2 }};
+        font-size: {{ block.settings.subtitle_font_size }}px;
+        text-transform:{{ block.settings.transform }};
+        padding-top: {{ block.settings.padding_tst }}px;
+        padding-bottom: {{ block.settings.padding_bst }}px;
+        margin: 0px;
+        }
+        {% endif %}
+    {% endfor %}
+{% endstyle %}
+
+    {%- for block in section.blocks -%}
+    {%- case block.type -%}
+        {%- when 'title' -%}
+            <h2 class="title-{{ block.id }}">{{ block.settings.text_1 }}</h2>
+        {%- when 'subtitle' -%}
+            <h4 class="subtitle-{{ block.id }}">{{ block.settings.text_2 }}</h4>
+    {%- endcase -%}
+{%- endfor -%}
+</section>
+
+{% schema %}
+    {
+        "name": "Hello World",
+        "class": "hello-world",
+        "settings":
+        [
+            {
+                "type": "color",
+                "id": "background_color",
+                "label": "Background Color",
+                "default": "#ffffff"
+            },
+            {
+                "type": "select",
+                "id": "alignment",
+                "label": "Text Align",
+                "options":
+                [
+                  { "value": "left", "label": "Left" },
+                  { "value": "center", "label": "Center" },
+                  { "value": "right", "label": "Right" }
+                ],
+                "default": "center"
+            },
+            {
+                "type": "range",
+                "id": "padding_t",
+                "label": "Padding Top",
+                "min": 4,
+                "max": 40,
+                "step": 2,
+                "unit": "px",
+                "default": 8
+            },
+            {
+                "type": "range",
+                "id": "padding_b",
+                "label": "Padding Bottom",
+                "min": 4,
+                "max": 40,
+                "step": 2,
+                "unit": "px",
+                "default": 8
+            }
+        ],
+        "blocks":
+        [
+            {
+                "name": "Title",
+                "type": "title",
+                "settings": 
+                [
+                    {
+                        "type": "text",
+                        "id": "text_1",
+                        "label": "Text",
+                        "default": "Add Text"
+                    },
+                    {
+                        "type": "color",
+                        "id": "font-color",
+                        "label": "Font Color",
+                        "default": "#fefefe"
+                    },
+                    {
+                        "type": "color",
+                        "id": "b_color",
+                        "label": "Background Color",
+                        "default": "#ffffff"
+                    },
+                    {
+                        "type": "select",
+                        "id": "transform_1",
+                        "label": "Text Transform",
+                        "options":
+                        [
+                          { "value": "lowercase", "label": "Lower case" },
+                          { "value": "capitalize", "label": "Capitalize" },
+                          { "value": "uppercase", "label": "Upper case" }
+                        ],
+                        "default": "capitalize"
+                    },
+                    {
+                        "type": "range",
+                        "id": "title_font_size",
+                        "label": "Font Size",
+                        "min": 24,
+                        "max": 80,
+                        "step": 4,
+                        "unit": "px",
+                        "default": 24
+                    },
+                    {
+                        "type": "select",
+                        "id": "alignment_1",
+                        "label": "Text Align",
+                        "options":
+                        [
+                          { "value": "left", "label": "Left" },
+                          { "value": "center", "label": "Center" },
+                          { "value": "right", "label": "Right" }
+                        ],
+                        "default": "center"
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_tt",
+                        "label": "Padding Top",
+                        "min": 4,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 8
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_bt",
+                        "label": "Padding Bottom",
+                        "min": 4,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 8
+                    },
+                    {
+                        "type": "font_picker",
+                        "id": "title-font",
+                        "label": "Font",
+                        "default": "almarai_n3"
+                    }
+                ]
+            },
+            {
+                "name": "Subtitle",
+                "type": "subtitle",
+                "settings": 
+                [
+                    {
+                        "type": "text",
+                        "id": "text_2",
+                        "label": "Text",
+                        "default": "Add Text"
+                    },
+                    {
+                        "type": "color",
+                        "id": "font_2",
+                        "label": "Font Color",
+                        "default": "#000000"
+                    },
+                    {
+                        "type": "color",
+                        "id": "b_color2",
+                        "label": "Background Color",
+                        "default": "#fefefe"
+                    },
+                    {
+                        "type": "select",
+                        "id": "transform",
+                        "label": "Text Transform",
+                        "options":
+                        [
+                          { "value": "lowercase", "label": "Lower case" },
+                          { "value": "capitalize", "label": "Capitalize" },
+                          { "value": "uppercase", "label": "Upper case" }
+                        ],
+                        "default": "capitalize"
+                    },
+                    {
+                        "type": "range",
+                        "id": "subtitle_font_size",
+                        "label": "Font Size",
+                        "min": 18,
+                        "max": 50,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 18
+                    },
+                    {
+                        "type": "select",
+                        "id": "alignment_2",
+                        "label": "Text Align",
+                        "options":
+                        [
+                          { "value": "left", "label": "Left" },
+                          { "value": "center", "label": "Center" },
+                          { "value": "right", "label": "Right" }
+                        ],
+                        "default": "center"
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_tst",
+                        "label": "Padding Top",
+                        "min": 4,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 8
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_bst",
+                        "label": "Padding Bottom",
+                        "min": 4,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 8
+                    }                    
+                ]
+            }
+        ],
+        "presets":
+        [
+            {
+                "name": "Hello World"
+            }
+        ],
+        "tag": "div"
+    }
+{% endschema %}

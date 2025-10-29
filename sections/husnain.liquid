@@ -1,0 +1,622 @@
+<section class="husnain-section" id="husnain-section-{{ section.id }}">
+
+{%  style  %}
+
+    #husnain-section-{{ section.id }} {
+        background-color: {{ section.settings.bg_color }};
+    }
+    {% for block in section.blocks %}
+        {% if block.type == 'imge' %}
+        #husnain-section-{{ section.id }} .imge-{{ block.id }} {
+            border-radius: {{ block.settings.border-radius }}px;
+        }
+        {% elsif block.type == 'title' %}
+        #husnain-section-{{ section.id }} .title-{{ block.id }} {
+            color: {{ block.settings.text_color }};
+            font-size: {{ block.settings.font-size }}rem;
+            text-transform: {{ block.settings.text_transfrom }};
+            font-weight: {{ block.settings.title_w }};
+            margin: {{ block.settings.margin_t_t }}px 0 {{ block.settings.margin_t_b }}px 0;
+            padding: {{ block.settings.padding_t_t }}px 0 {{ block.settings.padding_t_b }}px 0;
+        }
+        {% elsif block.type == 'subtitl' %}
+        #husnain-section-{{ section.id }} .subtitl-{{ block.id }} {
+            color: {{ block.settings.text_color_sub }};
+            font-size: {{ block.settings.font-size_sub }}rem;
+            text-transform: {{ block.settings.text_transfrom_sub }};
+            margin: {{ block.settings.margin_st_t }}px 0 {{ block.settings.margin_st_b }}px 0;
+            padding: {{ block.settings.padding_st_t }}px 0 {{ block.settings.padding_st_b }}px 0;
+        }
+        {% elsif block.type == 'content' %}
+        #husnain-section-{{ section.id }} .content-{{ block.id }} {
+            color: {{ block.settings.text_color_content }};
+            font-size: {{ block.settings.font_size_content }}rem;
+            text-transform: {{ block.settings.text_transfrom_content }};
+            margin: {{ block.settings.margin_c_t }}px 0 {{ block.settings.margin_c_b }}px 0;
+            padding: {{ block.settings.padding_c_t }}px 0 {{ block.settings.padding_c_b }}px 0;
+        }
+            {% elsif block.type == 'button-text' %}
+        #husnain-section-{{ section.id }} .button-text-{{ block.id }} {
+            color: {{ block.settings.btn_txt_clr }};
+            transition: color 0.3s ease;
+            font-size: {{ block.settings.font-size_btn }}rem;
+            text-transform: {{ block.settings.text_transfrom_btn }};
+            background-color: {{ block.settings.button_background_color }};
+            text-decoration: none;
+            padding: {{ block.settings.padding_b_t }}px {{ block.settings.padding_b_r }}px {{ block.settings.padding_b_b }}px {{ block.settings.padding_b_l }}px;
+            border-radius: {{ block.settings.border_radius }}px;
+            margin: {{ block.settings.margin_bt }}px {{ block.settings.margin_br }}px {{ block.settings.margin_bb }}px {{ block.settings.margin_bl }}px;
+        }
+
+        #husnain-section-{{ section.id }} .button-text-{{ block.id }}:hover {
+        color: {{ block.settings.button_hvr_text_color }};
+        background-color: {{ block.settings.button_hover_color }}; /* Dynamic hover color */
+        }
+        {% endif %}
+    {% endfor %}
+
+.section-by-me {
+    padding: 20px;
+}
+.main-div-section {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+border-radius: 12px;
+overflow: hidden;
+max-width: 420px;
+margin: 0 auto;
+}
+
+.husnain-image-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.main-image {
+    width: 100%;
+    height: auto;
+}
+
+.badge-image {
+    position: absolute;
+    height: 100;
+    width: 100;
+}
+
+.badge-image.top-left { top: 10px; left: 10px; }
+.badge-image.top-right { top: 10px; right: 10px; }
+.badge-image.bottom-left { bottom: 10px; left: 10px; }
+.badge-image.bottom-right { bottom: 10px; right: 10px; }
+
+@media (min-width: 768px) {
+      .main-div-section {
+        flex-direction: row;
+        text-align: left;
+        max-width: 900px;
+    }
+
+    .husnain-image-wrapper {
+      flex: 1;
+    }
+
+    .husnain-content {
+      flex: 1;
+      padding: 40px;
+    }
+}
+{% endstyle %}
+
+    <div class="main-div-section">
+        <div class="husnain-image-wrapper">
+            {%- for block in section.blocks -%}
+                {%- if block.type == 'imge' -%}
+                    <img src="{{ block.settings.main_image | image_url }}" class="main-image imge-{{ block.id }}" alt="" width="400" height="auto" loading="lazy">
+                {%- elsif block.type == 'subimge' -%}
+                    <img src="{{ block.settings.badge_image | image_url }}" class="badge-image {{ block.settings.badge_position }}" alt="" width="100" height="100" loading="lazy">
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+
+        <div class="husnain-content">
+            {%- for block in section.blocks -%}
+                {%- if block.type == 'title' and block.settings.title_text != blank -%}
+                    <h2 class="title-{{ block.id }}">{{ block.settings.title_text }}</h2>
+                {%- elsif block.type == 'subtitl' and block.settings.subtitle_text != blank -%}
+                    <h3 class="subtitl-{{ block.id }}">{{ block.settings.subtitle_text }}</h3>
+                {%- elsif block.type == 'content' and block.settings.content_image != blank -%}
+                    <p class="content-{{ block.id }}">{{ block.settings.content_image }}</p>
+                {%- elsif block.type == 'button-text' and block.settings.button_text != blank -%}
+                    <div style="text-align: {{ block.settings.alignment }} !important;"><a href="{{ block.settings.button_url }}" class="button-text-{{ block.id }}">{{ block.settings.button_text }}</a></div>
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+    </div>
+</section>
+
+
+
+{% schema %}
+    {
+        "name": "Section by Husnain",
+        "class": "husnain-section",
+        "settings":
+        [
+            {
+                "type": "color",
+                "id": "bg_color",
+                "label": "Background Color",
+                "default": "#ffffff"
+            }
+        
+        ],
+        "blocks": [
+            {
+                "name": "Image",
+                "type": "imge",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "main_image",
+                        "label": "Main Image"
+                    },
+                    {
+                        "type": "range",
+                        "id": "border-radius",
+                        "label": "Border-radius",
+                        "min": 0,
+                        "max": 25,
+                        "step": 1,
+                        "unit": "px",
+                        "default": 0
+                    }
+                ],
+                "limit": 1
+            },
+            {
+                "name": "Sub Image",
+                "type": "subimge",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "badge_image",
+                        "label": "Badge Image"
+                    },
+                    {
+                      "type": "select",
+                      "id": "badge_position",
+                      "label": "Badge Placement",
+                      "options": [
+                        { "value": "top-left", "label": "Top Left" },
+                        { "value": "top-right", "label": "Top Right" },
+                        { "value": "bottom-left", "label": "Bottom Left" },
+                        { "value": "bottom-right", "label": "Bottom Right" }
+                      ],
+                      "default": "top-left"
+                    }
+                ],
+                "limit": 2
+            },
+            {
+                "name": "Title",
+                "type": "title",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title_text",
+                        "label": "Title Text",
+                        "default": "Title Goes Here"
+                    },
+                    {
+                        "type": "color",
+                        "id": "text_color",
+                        "label": "Text Color",
+                        "default": "#000000"
+                    },
+                    {
+                        "type": "range",
+                        "id": "font-size",
+                        "label": "Font-size",
+                        "min": 2.8,
+                        "max": 6,
+                        "step": 0.2,
+                        "unit": "rem",
+                        "default": 2.8
+                    },
+                    {
+                        "type": "range",
+                        "id": "title_w",
+                        "label": "Font Weight",
+                        "min": 400,
+                        "max": 800,
+                        "step": 200,
+                        "unit": "px",
+                        "default": 400
+                    },
+                    {
+                        "type": "select",
+                        "id": "text_transfrom",
+                        "label": "Text Transfrom",
+                        "default": "capitalize",
+                        "info": "Change Text Case",
+                        "options": [
+                            { "value": "lowercase", "label": "Lower Case"  },{ "value": "capitalize", "label": "Capitalize" }, { "value": "uppercase", "label": "Upper Casse" }
+                        ]
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_t_t",
+                        "label": "Margin Top",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_t_b",
+                        "label": "Margin Bottom",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_t_t",
+                        "label": "Padding Top",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_t_b",
+                        "label": "Padding Bottom",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    }
+                ],
+                "limit": 1
+            },
+            {
+                "name": "Subtitle",
+                "type": "subtitl",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "subtitle_text",
+                        "label": "Subtitle Text",
+                        "default": "Subtitle Goes Here"
+                    },
+                    {
+                        "type": "color",
+                        "id": "text_color_sub",
+                        "label": "Text Color",
+                        "default": "#000000"
+                    },
+                    {
+                        "type": "range",
+                        "id": "font-size_sub",
+                        "label": "Font-size",
+                        "min": 1.8,
+                        "max": 6,
+                        "step": 0.2,
+                        "unit": "rem",
+                        "default": 2.2
+                    },
+                    {
+                        "type": "select",
+                        "id": "text_transfrom_sub",
+                        "label": "Text Transfrom",
+                        "default": "capitalize",
+                        "info": "Change Text Case",
+                        "options": [
+                            { "value": "lowercase", "label": "Lower Case"  },{ "value": "capitalize", "label": "Capitalize" }, { "value": "uppercase", "label": "Upper Casse" }
+                        ]
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_st_t",
+                        "label": "Margin Top",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_st_b",
+                        "label": "Margin Bottom",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_st_t",
+                        "label": "Padding Top",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_st_b",
+                        "label": "Padding Bottom",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    }
+                ],
+                "limit": 1
+            },
+            {
+                "name": "Content",
+                "type": "content",
+                "settings": [
+                    {
+                        "type": "textarea",
+                        "id": "content_image",
+                        "label": "Content Image",
+                        "default": "Text Goes Here"
+                    },
+                    {
+                        "type": "color",
+                        "id": "text_color_content",
+                        "label": "Text Color",
+                        "default": "#000000"
+                    },
+                    {
+                        "type": "range",
+                        "id": "font_size_content",
+                        "label": "Font-size",
+                        "min": 1.2,
+                        "max": 6,
+                        "step": 0.2,
+                        "unit": "rem",
+                        "default": 1.2
+                    },
+                    {
+                        "type": "select",
+                        "id": "text_transfrom_content",
+                        "label": "Text Transfrom",
+                        "default": "capitalize",
+                        "info": "Change Text Case",
+                        "options": [
+                            { "value": "lowercase", "label": "Lower Case"  },{ "value": "capitalize", "label": "Capitalize" }, { "value": "uppercase", "label": "Upper Casse" }
+                        ]
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_c_t",
+                        "label": "Margin Top",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_c_b",
+                        "label": "Margin Bottom",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_c_t",
+                        "label": "Padding Top",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_c_b",
+                        "label": "Padding Bottom",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    }
+                ],
+                "limit": 1
+            },
+            {
+                "name": "button",
+                "type": "button-text",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "button_text",
+                        "label": "Button Text",
+                        "default": "Button"
+                    },
+                    {
+                        "type": "url",
+                        "id": "button_url",
+                        "label": "Button Url"
+                    },
+                    {
+                        "type": "color",
+                        "id": "btn_txt_clr",
+                        "label": "Button Text Color",
+                        "default": "#ffffff"
+                    },
+                    {
+                        "type": "color",
+                        "id": "button_hvr_text_color",
+                        "label": "Button Text Hover Color",
+                        "default": "#efefef"
+                    },
+                    {
+                        "type": "range",
+                        "id": "font-size_btn",
+                        "label": "Font-size",
+                        "min": 0.8,
+                        "max": 6,
+                        "step": 0.2,
+                        "unit": "rem",
+                        "default": 0.8
+                    },
+                    {
+                        "type": "color",
+                        "id": "button_background_color",
+                        "label": "Button Background Color",
+                        "default": "#000000"
+                    },
+                    {
+                        "type": "color",
+                        "id": "button_hover_color",
+                        "label": "Button Hover Color",
+                        "default": "#fefefe"
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_b_t",
+                        "label": "Padding Top",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_b_r",
+                        "label": "Padding Right",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_b_b",
+                        "label": "Padding Bottom",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "padding_b_l",
+                        "label": "Padding Left",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "border_radius",
+                        "label": "Border Radius",
+                        "min": 0,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "select",
+                        "id": "text_transfrom_btn",
+                        "label": "Text Transfrom",
+                        "default": "capitalize",
+                        "info": "Change Text Case",
+                        "options": [
+                            { "value": "lowercase", "label": "Lower Case"  },{ "value": "capitalize", "label": "Capitalize" }, { "value": "uppercase", "label": "Upper Casse" }
+                        ]
+                    },
+                    {
+                        "type": "select",
+                        "id": "alignment",
+                        "label": "Text Align",
+                        "options":
+                        [
+                          { "value": "left", "label": "Left" },
+                          { "value": "center", "label": "Center" },
+                          { "value": "right", "label": "Right" }
+                        ],
+                        "default": "center"
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_bt",
+                        "label": "Margin top",
+                        "min": -40,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_br",
+                        "label": "Margin Right",
+                        "min": -40,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_bb",
+                        "label": "Margin Bottom",
+                        "min": -40,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    },
+                    {
+                        "type": "range",
+                        "id": "margin_bl",
+                        "label": "Margin Left",
+                        "min": -40,
+                        "max": 40,
+                        "step": 2,
+                        "unit": "px",
+                        "default": 0
+                    }
+                    
+                ],
+                "limit": 2
+            }
+        ],
+        "tag": "div",
+        "presets": 
+        [
+            {
+                "name": "Section By Husnain"
+            }
+        ]
+    }
+{% endschema %}
