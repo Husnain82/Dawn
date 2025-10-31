@@ -92,3 +92,34 @@
     </script>
   </variant-selects>
 {%- endunless -%}
+<div class="expected-delivery">
+<p>Expected Delivery: {{ product.selected_or_first_available_variant.metafields.custom.delivery_date }}</p>
+</div>
+
+<script>
+  const productUrl = '/products/{{ product.handle }}';
+
+  document.addEventListener("variant:updated", (e) => { 
+    // Use backticks (``) for string interpolation
+    const url = `${productUrl}?variant=${e.detail.variant.id}&section_id=delivery-date`;
+
+    console.log(url); // This will now correctly log the URL with the variant ID
+
+    fetch(url)
+      .then(res => res.text())
+      .then(data => {
+        const parser = new DOMParser();
+        const dom = parser.parseFromString(data, "text/html");
+        const newSection = dom.getElementById("shopify-section-delivery-date");
+        console.log(newSection);
+
+        // You can replace the content of your delivery section if needed
+        if (newSection) {
+          document.querySelector('.expected-delivery').innerHTML = newSection.innerHTML;
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching updated section:', error);
+      });
+  });
+</script>

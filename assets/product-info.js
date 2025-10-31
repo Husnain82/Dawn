@@ -123,6 +123,24 @@ if (!customElements.get('product-info')) {
             this.pendingRequestUrl = null;
             const html = new DOMParser().parseFromString(responseText, 'text/html');
             callback(html);
+// Get the selected variant ID (assuming the input field with name="id" exists)
+const variantInput = document.querySelector("[name='id']");
+
+if (variantInput) {
+  const newVariantId = variantInput.value;
+
+  // Dispatch the 'variant:updated' event with the new variant ID
+  document.dispatchEvent(new CustomEvent("variant:updated", {
+    detail: {
+      variant: {
+        id: newVariantId
+      }
+    }
+  }));
+} else {
+  console.warn("Variant input field not found.");
+}
+
           })
           .then(() => {
             // set focus to last clicked option value
