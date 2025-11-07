@@ -93,25 +93,33 @@
   </variant-selects>
 {%- endunless -%}
 <div class="expected-delivery">
-  <p>Expected Delivery: <span id="delivery-date">{{ product.selected_or_first_available_variant.metafields.custom.delivery_date }}</span></p>
+<p>Expected Delivery: {{ product.selected_or_first_available_variant.metafields.custom.delivery_date }}</p>
 </div>
 
 <script>
-  // This listens for variant changes and updates the delivery date dynamically
-  document.addEventListener("variant:updated", (e) => {
-    // Get the updated variant
-    const updatedVariant = e.detail.variant;
+  const productUrl = '/products/{{ product.handle }}';
 
-    // Check if the variant has a metafield for delivery date
-    const deliveryDate = updatedVariant.metafields?.custom?.delivery_date;
+  document.addEventListener("variant:updated", (e) => { 
+    // Use backticks (``) for string interpolation
+    const url = `${productUrl}?variant=${e.detail.variant.id}&section_id=delivery-date`;
 
-    // Check if the delivery date exists and update the displayed date
-    if (deliveryDate) {
-      document.querySelector('#delivery-date').innerHTML = deliveryDate;
-    } else {
-      // Optional: Handle the case where the delivery date is missing
-      console.log("No delivery date available for this variant.");
-    }
+    console.log(url); // This will now correctly log the URL with the variant ID
+
+    fetch(url)
+      .then(res => res.text())
+      .then(data => {
+        const parser = new DOMParser();
+        const dom = parser.parseFromString(data, "text/html");
+        const newSection = dom.getElementById("shopify-section-delivery-date");
+        console.log(newSection);
+
+        // You can replace the content of your delivery section if needed
+        if (newSection) {
+          document.querySelector('.expected-delivery').innerHTML = newSection.innerHTML;
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching updated section:', error);
+      });
   });
 </script>
-
