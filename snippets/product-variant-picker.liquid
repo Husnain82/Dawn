@@ -97,34 +97,21 @@
 </div>
 
 <script>
-  const productUrl = '/products/{{ product.handle }}';
+  // This listens for variant changes and updates the delivery date dynamically
+  document.addEventListener("variant:updated", (e) => {
+    // Get the updated variant
+    const updatedVariant = e.detail.variant;
 
-  document.addEventListener("variant:updated", (e) => { 
-    // Use backticks (``) for string interpolation
-    const url = `${productUrl}?variant=${e.detail.variant.id}&section_id=delivery-date`;
+    // Check if the variant has a metafield for delivery date
+    const deliveryDate = updatedVariant.metafields?.custom?.delivery_date;
 
-    console.log(url); // Log the URL to make sure the request is correct
-
-    fetch(url)
-      .then(res => res.text())
-      .then(data => {
-        const parser = new DOMParser();
-        const dom = parser.parseFromString(data, "text/html");
-
-        // Grab the updated delivery date from the DOM (adjust the selector if needed)
-        const newDeliveryDate = dom.querySelector('.product-single__delivery-date'); // Adjust selector if needed
-
-        console.log('New Delivery Date:', newDeliveryDate);
-
-        if (newDeliveryDate) {
-          // Replace the delivery date in the existing DOM
-          document.querySelector('#delivery-date').innerHTML = newDeliveryDate.innerHTML;
-        } else {
-          console.log("Delivery date not found.");
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching updated section:', error);
-      });
+    // Check if the delivery date exists and update the displayed date
+    if (deliveryDate) {
+      document.querySelector('#delivery-date').innerHTML = deliveryDate;
+    } else {
+      // Optional: Handle the case where the delivery date is missing
+      console.log("No delivery date available for this variant.");
+    }
   });
 </script>
+
