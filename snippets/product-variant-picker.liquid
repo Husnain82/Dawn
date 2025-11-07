@@ -92,8 +92,13 @@
     </script>
   </variant-selects>
 {%- endunless -%}
-<div class="expected-delivery">
-<p>Expected Delivery: {{ product.selected_or_first_available_variant.metafields.custom.delivery_date }}</p>
+<div style="display: flex; flex-direction: row">
+  <div>
+    <p>Expected Delivery in:&nbsp;</p>
+  </div>
+  <div class="expected-delivery">
+    <p>{{ ' ' }}{{ product.selected_or_first_available_variant.metafields.custom.delivery_date }}</p>
+  </div>
 </div>
 
 <script>
