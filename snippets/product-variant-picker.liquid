@@ -93,7 +93,7 @@
   </variant-selects>
 {%- endunless -%}
 <div class="expected-delivery">
-  <p>Expected Delivery: <span id="delivery-date">{{ product.selected_or_first_available_variant.metafields.custom.delivery_date }}</span></p>
+<p>Expected Delivery: {{ product.selected_or_first_available_variant.metafields.custom.delivery_date }}</p>
 </div>
 
 <script>
@@ -113,14 +113,9 @@
         const newSection = dom.getElementById("shopify-section-delivery-date");
         console.log(newSection);
 
-        // Check if newSection exists
+        // You can replace the content of your delivery section if needed
         if (newSection) {
-          const newDeliveryDate = newSection.querySelector('#delivery-date');
-          
-          // If the new delivery date is found, replace the existing one
-          if (newDeliveryDate) {
-            document.querySelector('#delivery-date').innerHTML = newDeliveryDate.innerHTML;
-          }
+          document.querySelector('.expected-delivery').innerHTML = newSection.innerHTML;
         }
       })
       .catch(error => {
